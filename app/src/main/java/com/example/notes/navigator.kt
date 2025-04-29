@@ -1,7 +1,7 @@
 package com.example.notes
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
 sealed class Screen(val route : String) {
@@ -12,3 +12,9 @@ sealed class Screen(val route : String) {
     }
 }
 
+@Composable
+fun AppNavigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = Screen.Home.route){
+    }
+}
