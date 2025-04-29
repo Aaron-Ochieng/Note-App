@@ -1,14 +1,14 @@
 package com.example.notes.data
 
-import java.time.LocalDateTime
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class Note(
     var id : Int,
     var title: String,
     var content : String,
-    var createdAt : LocalDateTime
+    var createdAt : Long
 )
 
 
-val notes = emptyList<Note>()
+val notes = listOf<Note>()
