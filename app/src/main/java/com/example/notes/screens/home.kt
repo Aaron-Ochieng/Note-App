@@ -1,6 +1,7 @@
 package com.example.notes.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -68,19 +70,38 @@ fun Home(
         }
     ){ innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(start = 16.dp, end = 16.dp)
         ) {
             if (notes.isEmpty() ){
                 Text("No notes yet")
             }else{
                 LazyColumn {
-                    items (notes){ note ->
-                        Box(modifier = Modifier
-                            .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth()
-                            .height(120.dp)
-                            .background(note.toColor())){
-                            if (note.title.isNotEmpty()) {
+                    items  (notes){ note ->
+                        Box(
+                            modifier = Modifier.padding(top = 16.dp )
+                        ){
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .background(note.toColor())
+                                    .clickable(
+                                        onClick = {
+                                            navController.navigate(
+                                                Screen.Edit.route.replace(
+                                                    "{noteId}",
+                                                    note.id.toString()
+                                                )
+                                            )
+                                        }
+                                    )
+
+                            ){
+                                if (note.title.isNotEmpty()) {
 
                                     Text(
                                         note.title.uppercase(), style = MaterialTheme.typography.titleMedium.copy(color = Color.Black),
@@ -91,30 +112,31 @@ fun Home(
                                             .align(Alignment.TopStart)
                                     )
 
+                                }
+
+                                Text(
+                                    note.content, style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
+                                    overflow = TextOverflow.Ellipsis,
+                                    maxLines = 3,
+                                    modifier = Modifier
+                                        .align(alignment = Alignment.CenterStart)
+                                        .padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            top = if (note.title.isNotEmpty()) 0.dp else 16.dp
+                                        )
+                                )
+
+                                Text(
+                                    DateManager.formatNoteDate(note.createdAt),
+                                    style = MaterialTheme.typography.bodySmall.copy(color = Color.Black),
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp, end = 16.dp)
+                                        .align(
+                                            alignment = Alignment.BottomEnd
+                                        )
+                                )
                             }
-
-                            Text(
-                                note.content, style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 3,
-                                modifier = Modifier
-                                    .align(alignment = Alignment.CenterStart)
-                                    .padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        top = if (note.title.isNotEmpty()) 0.dp else 16.dp
-                                    )
-                            )
-
-                            Text(
-                                DateManager.formatNoteDate(note.createdAt),
-                                style = MaterialTheme.typography.bodySmall.copy(color = Color.Black),
-                                modifier = Modifier
-                                    .padding(bottom = 10.dp, end = 16.dp)
-                                    .align(
-                                        alignment = Alignment.BottomEnd
-                                    )
-                            )
                         }
                     }
                 }
