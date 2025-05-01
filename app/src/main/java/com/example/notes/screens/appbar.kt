@@ -17,26 +17,26 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.notes.data.Note
+import com.example.notes.data.NoteViewModel
 
-@Preview(showBackground = true)
-@Composable
-private fun AppBarPreview() {
-    val search = remember { mutableStateOf(false) }
-    val  searchVal = remember { mutableStateOf("") }
-    AppBar(search = search, searchText = searchVal)
-}
+
+//@Composable
+//private fun AppBarPreview() {
+//    val search = remember { mutableStateOf(false) }
+//    val  searchVal = remember { mutableStateOf("") }
+//    AppBar(search = search, searchText = searchVal)
+//}
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
     search: MutableState<Boolean>,
-    searchText : MutableState<String>
+    searchText : MutableState<String>,
+    viewModel: NoteViewModel
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -51,7 +51,9 @@ fun AppBar(
             }else{
                     TextField(
                         value = searchText.value,
-                        onValueChange = { searchText.value = it },
+                        onValueChange = { newValue ->
+                            searchText.value = newValue
+                            viewModel.searchNotes(newValue) },
                         placeholder = { Text("Search...") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),

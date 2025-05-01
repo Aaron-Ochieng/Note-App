@@ -31,7 +31,8 @@ fun AppNavigation(viewModel: NoteViewModel) {
         composable(Screen.Home.route){
             Home(
                 notes = notes.value ?: emptyList(),
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
         composable(

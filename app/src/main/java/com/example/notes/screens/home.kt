@@ -31,6 +31,7 @@ import androidx.navigation.NavHostController
 import com.example.notes.Screen
 import com.example.notes.data.DateManager
 import com.example.notes.data.Note
+import com.example.notes.data.NoteViewModel
 
 //@Preview(showBackground = true)
 //@Composable
@@ -44,13 +45,14 @@ import com.example.notes.data.Note
 @Composable
 fun Home(
     notes: List<Note>,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: NoteViewModel
 ) {
     val search = remember { mutableStateOf(false) }
     val  searchVal = remember { mutableStateOf("") }
     Scaffold (
         topBar = {
-            AppBar(search = search, searchText = searchVal)
+            AppBar(search = search, searchText = searchVal, viewModel = viewModel )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -71,9 +73,7 @@ fun Home(
                 .padding(innerPadding)
                 .padding(start = 16.dp, end = 16.dp)
         ) {
-            if (notes.isEmpty() ){
-                Text("No notes yet")
-            }else{
+            if (notes.isNotEmpty() ){
                 LazyColumn {
                     items  (notes){ note ->
                         Box(

@@ -45,4 +45,11 @@ object NoteManager {
         }
         return Color.Transparent
     }
+
+    fun searchNotes(query : String) : List<Note>{
+        val lowerCaseQuery = query.lowercase()
+        return notes.filter{
+            it.title.lowercase().contains(lowerCaseQuery) || it.content.lowercase().contains(lowerCaseQuery)
+        }
+    }
 }

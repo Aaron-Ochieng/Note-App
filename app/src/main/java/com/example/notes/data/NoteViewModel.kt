@@ -31,4 +31,8 @@ class NoteViewModel : ViewModel() {
     fun getNoteColor(noteId: Int) : Color{
         return NoteManager.getNoteColor(noteId)
     }
+
+    fun searchNotes(query : String) {
+        _notes.value = NoteManager.searchNotes(query)
+    }
 }
