@@ -1,5 +1,6 @@
 package com.example.notes.data
 
+import androidx.compose.ui.graphics.Color
 
 
 object NoteManager {
@@ -34,5 +35,14 @@ object NoteManager {
         notes.removeIf{
             it.id == id
         }
+    }
+
+    fun getNoteColor(noteId: Int) : Color{
+        notes.forEach {
+            if(noteId == it.id){
+                return it.toColor()
+            }
+        }
+        return Color.Transparent
     }
 }

@@ -1,5 +1,6 @@
 package com.example.notes.data
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,5 +26,9 @@ class NoteViewModel : ViewModel() {
     }
     fun deleteNote (id: Int){
         NoteManager.deleteNote(id)
+    }
+
+    fun getNoteColor(noteId: Int) : Color{
+        return NoteManager.getNoteColor(noteId)
     }
 }
