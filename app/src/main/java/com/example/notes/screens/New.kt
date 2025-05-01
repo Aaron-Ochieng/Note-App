@@ -12,11 +12,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -97,38 +101,28 @@ fun NewNote(navController: NavHostController,viewModel: NoteViewModel) {
 
             )
         },
-        bottomBar = {
-            if (savable.value){
-                Row(
-                    modifier = Modifier.padding(16.dp)
-                ){
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(Color.Black)
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .clickable(
-                                onClick = {
-                                    viewModel.addNote(
-                                        title = title.value,
-                                        content = content.value
-                                    )
-                                    navController.popBackStack()
-                                }
-                            ),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Text(
-                            "Save",
-                            style = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-
-                            )
-                    }
+        floatingActionButton = {
+            if (savable.value) {
+                FloatingActionButton(
+                    shape = CircleShape,
+                    elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
+                    onClick = {
+                        viewModel.addNote(
+                            title = title.value,
+                            content = content.value
+                        )
+                        navController.popBackStack()
+                    },
+                    containerColor = Color.Black,
+                    contentColor = Color.White
+                ) {
+                    Icon(
+                        Icons.Default.Check, contentDescription = null
+                    )
                 }
-
             }
-        }
+        },
+
     ){ innerPadding ->
         HorizontalDivider(modifier = Modifier.fillMaxWidth(), 1.dp, Color.Black)
         Column(
