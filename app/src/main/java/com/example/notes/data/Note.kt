@@ -21,7 +21,6 @@ data class Note(
     var createdAt: String,
     var color: Int
 ) {
-    fun toColor(): Color = Color(color) // Convert Int to Color
     companion object {
         fun fromColor(): Int  {
             val colors = listOf<Color>(LightPink, LightAqua, LightBrown, LightGreen)
