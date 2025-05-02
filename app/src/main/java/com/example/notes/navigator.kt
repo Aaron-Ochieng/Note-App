@@ -3,6 +3,7 @@ package com.example.notes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,7 +23,7 @@ sealed class Screen(val route : String) {
 @Composable
 fun AppNavigation(viewModel: NoteViewModel) {
     val navController = rememberNavController()
-    val notes =  viewModel.notesList.observeAsState(initial = null)
+    val notes = remember { viewModel.noteList }.observeAsState(emptyList())
 
     NavHost(
         navController = navController,
@@ -30,7 +31,7 @@ fun AppNavigation(viewModel: NoteViewModel) {
     ){
         composable(Screen.Home.route){
             Home(
-                notes = notes.value ?: emptyList(),
+                notes = notes.value,
                 navController = navController,
                 viewModel = viewModel
             )
@@ -40,7 +41,7 @@ fun AppNavigation(viewModel: NoteViewModel) {
             arguments = listOf(navArgument("noteId") { type = NavType.IntType })
         ) { backStackEntry ->
             val noteId = backStackEntry.arguments?.getInt("noteId")
-            val note = notes.value?.find { it.id == noteId }
+            val note = notes.value.find { it.id == noteId }
             if (noteId != null) {
                 Edit(
                     noteId = noteId,
