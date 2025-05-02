@@ -84,7 +84,7 @@ fun Home(
                                     .clip(RoundedCornerShape(10.dp))
                                     .fillMaxWidth()
                                     .height(120.dp)
-                                    .background(note.toColor())
+                                    .background(Color(note.color))
                                     .clickable(
                                         onClick = {
                                             navController.navigate(
@@ -93,6 +93,7 @@ fun Home(
                                                     note.id.toString()
                                                 )
                                             )
+                                            viewModel.getNoteColor(note.id)
                                         }
                                     )
 
@@ -124,7 +125,7 @@ fun Home(
                                 )
 
                                 Text(
-                                    DateManager.formatNoteDate(note.createdAt),
+                                    note.createdAt,
                                     style = MaterialTheme.typography.bodySmall.copy(color = Color.Black),
                                     modifier = Modifier
                                         .padding(bottom = 10.dp, end = 16.dp)
