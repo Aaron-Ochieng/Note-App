@@ -20,4 +20,10 @@ interface NoteDao {
 
     @Query("DELETE FROM Note WHERE id = :id")
     fun deleteNote(id : Int)
+
+    @Query("SELECT color FROM Note WHERE id = :id")
+    fun getNoteColor(id : Int) : Int
+
+    @Query("SELECT * FROM note WHERE title LIKE '%' || :query || '%' OR content LIKE '%' || :query || '%'")
+    fun searchNotes(query: String): LiveData<List<Note>>
 }
