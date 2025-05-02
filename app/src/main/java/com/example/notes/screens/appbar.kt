@@ -53,7 +53,7 @@ fun AppBar(
                         value = searchText.value,
                         onValueChange = { newValue ->
                             searchText.value = newValue
-                            viewModel.searchNotes(newValue) },
+                            viewModel.updateSearchQuery(newValue) },
                         placeholder = { Text("Search...") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
