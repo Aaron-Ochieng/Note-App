@@ -18,7 +18,7 @@ data class Note(
     var id: Int = 0,
     var title: String,
     var content: String,
-    var createdAt: LocalDateTime,
+    var createdAt: String,
     var color: Int
 ) {
     fun toColor(): Color = Color(color) // Convert Int to Color
