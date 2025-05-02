@@ -1,17 +1,22 @@
 package com.example.notes.data
 
 
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+
 
 class NoteViewModel : ViewModel() {
     val noteDao = NoteInstance.noteDataBase.getNoteDao()
@@ -71,11 +76,13 @@ class NoteViewModel : ViewModel() {
         }
     }
 
-    fun getNoteColor(noteId: Int) : Int {
-        var colorInt = 0
-        viewModelScope.launch (Dispatchers.IO){
-            colorInt =  noteDao.getNoteColor(id = noteId)
+    fun getNoteColor(noteId: Int) : Int  {
+        var color = 0
+        _allNotes.value?.map { note ->
+            if (note.id == noteId){
+                color = note.color
+            }
         }
-        return colorInt
+        return color
     }
 }
