@@ -45,15 +45,17 @@ fun Edit(
     val title = remember { mutableStateOf<String>(note?.title ?: "") }
     val content = remember { mutableStateOf<String>(note?.content ?: "") }
     val savable = remember { derivedStateOf   { checkEmptyContent(content.value) } }
+    val colorInt = viewModel.getNoteColor(noteId)
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background( color = viewModel.getNoteColor(noteId)
+            .background( color = Color(colorInt)
             ),
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = viewModel.getNoteColor(noteId),
+                    containerColor = Color(colorInt),
                     navigationIconContentColor = Color.Black,
                     titleContentColor = Color.Black,
                     actionIconContentColor = Color.Black
@@ -69,8 +71,8 @@ fun Edit(
                             Text("Title", style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray))
                         },
                         colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = viewModel.getNoteColor(noteId),
-                            focusedContainerColor = viewModel.getNoteColor(noteId),
+                            unfocusedContainerColor = Color(colorInt),
+                            focusedContainerColor = Color(colorInt),
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedTextColor = Color.Black,
@@ -107,6 +109,7 @@ fun Edit(
                             title = title.value,
                             content = content.value
                         )
+                        navController.popBackStack()
                     },
                     containerColor = Color.Black,
                     contentColor = Color.White
@@ -127,13 +130,13 @@ fun Edit(
                     content.value = it },
                 placeholder = {
                     Text(
-                        "Enter content",
+                        colorInt.toString(),
                         style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray))
                 },
                 modifier = Modifier.fillMaxSize(),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = viewModel.getNoteColor(noteId),
-                    focusedContainerColor = viewModel.getNoteColor(noteId),
+                    unfocusedContainerColor = Color(colorInt),
+                    focusedContainerColor = Color(colorInt),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedTextColor = Color.Black,
