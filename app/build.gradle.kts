@@ -18,11 +18,20 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")}
     }
-
+    signingConfigs{
+        create("release") {
+            storeFile = file("../noteapp-release-key.jks")
+            storePassword = "your-password"
+            keyAlias = "noteapp-key"
+            keyPassword = "your-password"
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,6 +48,8 @@ android {
     buildFeatures {
         compose = true
     }
+
+
 }
 
 dependencies {
