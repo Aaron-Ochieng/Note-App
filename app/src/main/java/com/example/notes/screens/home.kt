@@ -8,13 +8,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -110,7 +113,15 @@ fun Home(
                                     )
 
                                 }
-
+                                IconButton(
+                                    onClick = {
+                                        viewModel.deleteNote(note.id)
+                                    },
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                ) {
+                                    Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Black, modifier = Modifier.width(16.dp).height(16.dp))
+                                }
                                 Text(
                                     note.content, style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
                                     overflow = TextOverflow.Ellipsis,
